@@ -135,5 +135,8 @@ def populate_sample_data():
     print(f" Database populated with {len(recipes)} recipes!")
     print("   Cuisines: Kazakh, Italian, French, American (5 meals each)")
 
+# Add this at the end to auto-initialize DB
 if __name__ == "__main__":
-    populate_sample_data()
+    import database
+    database.init_db()
+    print(" Database initialized successfully")
