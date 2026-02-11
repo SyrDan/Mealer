@@ -6,7 +6,7 @@ def init_db():
     conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
     
-    # Create tables
+   # database.py - REPLACE THE recipes TABLE CREATION
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS recipes (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -17,7 +17,8 @@ def init_db():
             calories INTEGER DEFAULT 0,
             fat REAL DEFAULT 0.0,
             carbs REAL DEFAULT 0.0,
-            protein REAL DEFAULT 0.0
+            protein REAL DEFAULT 0.0,
+            reference_image TEXT DEFAULT 'reference_images/default.jpg'
         )
     ''')
     
@@ -118,4 +119,5 @@ def get_all_recipes_with_ingredients():
         })
     
     conn.close()
+
     return recipes
