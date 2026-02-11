@@ -15,8 +15,8 @@ except Exception as e:
     TF_AVAILABLE = False
     print(f"TensorFlow not available (grading will be simulated): {e}")
 class DummyModel:
-        pass
-    model = DummyModel()
+    pass
+model = DummyModel()
 
 class ImageGrader:
     def __init__(self, reference_images_dir="reference_images"):
@@ -126,3 +126,4 @@ class ImageGrader:
             "dish": expected_dish or "Unknown Dish"
 
         }
+
