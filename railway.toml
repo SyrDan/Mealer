@@ -4,4 +4,7 @@ builder = "NIXPACKS"
 buildCommand = "pip install -r requirements.txt"
 
 [deploy]
-startCommand = "python init_db.py && python app.py"  # CRITICAL: Initialize DB FIRST
+startCommand = "python init_db.py"
+startCommand = "python app.py" # CRITICAL: Initialize DB FIRST
+restartPolicyType = "ON_FAILURE"
+restartPolicyMaxRetries = 10
