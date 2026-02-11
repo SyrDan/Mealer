@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Photo Assessment</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: Arial; background: linear-gradient(135deg, #B8CEAB 0%, #76d042 100%); padding: 20px; }
+        .container { max-width: 800px; margin: 0 auto; background: white; padding: 50px; border-radius: 20px; box-shadow: 0 10px 40px rgba(0,0,0,0.2); }
+        h1 { text-align: center; color: #FF9151; margin-bottom: 10px; font-size: 2.2rem; }
+        .subtitle { text-align: center; color: #FF9151; margin-bottom: 30px; font-size: 1.1rem; }
+        .upload-form { background: #f8f9fa; padding: 30px; border-radius: 15px; margin-bottom: 30px; }
+        .form-group { margin-bottom: 20px; }
+        label { display: block; margin-bottom: 8px; font-weight: bold; color: #495057; }
+        input[type="file"] { width: 100%; padding: 10px; border: 2px solid #e9ecef; border-radius: 10px; font-size: 1rem; }
+        input[type="text"] { width: 100%; padding: 12px; border: 2px solid #FF9151; border-radius: 10px; font-size: 1.1rem; font-weight: 600; background: #e7f3ff; color: #FF9151; }
+        button { background: #FF9151; color: white; padding: 15px 40px; border: none; border-radius: 50px; font-size: 1.1rem; font-weight: 600; cursor: pointer; width: 100%; transition: all 0.3s; }
+        button:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(245, 87, 108, 0.4); }
+        .result { text-align: center; padding: 40px; background: #f8f9fa; border-radius: 15px; border: 2px dashed #FF9151; margin-top: 30px; }
+        .result h2 { color: #FF9151; margin-bottom: 20px; font-size: 1.8rem; }
+        .score { font-size: 4.5rem; font-weight: bold; color: #FF9151; margin: 20px 0; display: block; }
+        .feedback { font-size: 1.4rem; margin: 25px 0; font-weight: bold; color: #495057; line-height: 1.5; }
+        .dish-name { background: #e7f3ff; padding: 12px; border-radius: 10px; margin-bottom: 20px; font-weight: 600; color: #FF9151; font-size: 1.1rem; border-left: 4px solid #FF9151; }
+        .btn { display: inline-block; background: #6c757d; color: white; padding: 12px 30px; border-radius: 50px; text-decoration: none; font-weight: bold; margin-top: 20px; transition: all 0.3s; }
+        .btn:hover { background: #5a6268; transform: translateY(-2px); }
+        .info-text { color: #6c757d; font-size: 0.95rem; margin-top: 8px; font-style: italic; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1> Satisfaction Inspector</h1>
+        <p class="subtitle">Upload a photo of your cooked meal for AI analysis</p>
+        
+        {% if result %}
+        <div class="result">
+            <h2>Bot Assessment</h2>
+            <div class="dish-name">{{ dish_name }}</div>
+            <span class="score">{{ result.score }}/100</span>
+            <div class="feedback">{{ result.feedback }}</div>
+            <a href="/" class="btn"> Back to menu</a>
+        </div>
+        {% else %}
+        <div class="upload-form">
+            <h2> Upload Photo of Your Meal</h2>
+            
+            <div class="form-group">
+                <label>Dish Name:</label>
+                <div class="dish-name">{{ dish_name }}</div>
+                <div class="info-text">This dish name is automatically detected from your recipe</div>
+            </div>
+            
+            <form method="post" action="/grade/{{ recipe_id }}" enctype="multipart/form-data">
+                <input type="hidden" name="dish_name" value="{{ dish_name }}">
+                
+                <div class="form-group">
+                    <label for="photo">Choose a photo:</label>
+                    <input type="file" id="photo" name="photo" accept="image/*" required>
+                    <div class="info-text">Take a clear photo of your prepared meal</div>
+                </div>
+                
+                <button type="submit"> Analyze Photo</button>
+            </form>
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>
