@@ -137,6 +137,15 @@ def populate_sample_data():
 
 # Add this at the end to auto-initialize DB
 if __name__ == "__main__":
-    import database
-    database.init_db()
-    print(" Database initialized successfully")
+    # Always initialize DB first
+    from database import init_db
+    init_db()
+    
+    from init_db import populate_sample_data
+    populate_sample_data()
+    
+    conn = sqlite3.connect("meals.db")
+    cursor = conn.cursor()
+    cursor.execute("SELECT COUNT(*) FROM recipes")
+    print(f" Database populated with {cursor.fetchone()[0]} recipes!")
+    conn.close()
