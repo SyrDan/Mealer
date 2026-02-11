@@ -137,10 +137,14 @@ def populate_sample_data():
     conn = sqlite3.connect("meals.db")
     cursor = conn.cursor()
     cursor.execute("SELECT COUNT(*) FROM recipes")
-    raise Exception(f"Database initialization FAILED! Only {recipe_count} recipes found (expected 20).")
-    
-    print(f" Status: SUCCESS\n")
+    if recipe_count < 20:
+        raise Exception(f"Database initialization FAILED! Only {recipe_count} recipes found (expected 20).")
+    else:
+        print(f"\n DATABASE VERIFICATION:")
+        print(f"   Recipes: {recipe_count}")
+        print(f"   Status: SUCCESS\n")
 
 if __name__ == "__main__":
     populate_sample_data()
+
 
