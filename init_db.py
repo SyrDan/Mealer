@@ -132,18 +132,14 @@ def populate_sample_data():
     for recipe in recipes:
         add_recipe(*recipe)
     
-    print(f" Database populated with {len(recipes)} recipes!")
-    print("   Cuisines: Kazakh, Italian, French, American (5 meals each)")
-
-# Add this at the end to auto-initialize DB
-if __name__ == "__main__":
-    populate_sample_data()
-    
-    # VERIFY DATABASE POPULATION (Critical for debugging)
+    # VERIFY DATABASE POPULATION (Critical fix)
     import sqlite3
     conn = sqlite3.connect("meals.db")
     cursor = conn.cursor()
     cursor.execute("SELECT COUNT(*) FROM recipes")
-    recipe_count = cursor.fetchone()[0]
-        raise Exception(f"Database initialization failed! Only {recipe_count} recipes found.")
+…        raise Exception(f"Database initialization FAILED! Only {recipe_count} recipes found (expected 20).")
+    
+    print(f" Status: SUCCESS\n")
 
+if __name__ == "__main__":
+    populate_sample_data()
