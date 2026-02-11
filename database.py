@@ -3,24 +3,22 @@ import sqlite3
 DB_PATH = "meals.db"
 
 def init_db():
-    conn = sqlite3.connect(DB_PATH)
+    conn = sqlite3.connect("meals.db")
     cursor = conn.cursor()
-    
-   # database.py - REPLACE THE recipes TABLE CREATION
-    cursor.execute('''
+    cursor.execute("""
         CREATE TABLE IF NOT EXISTS recipes (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             name TEXT NOT NULL,
             cuisine TEXT NOT NULL,
-            meal_type TEXT NOT NULL,
+            style TEXT NOT NULL,
+            ingredients TEXT NOT NULL,
             instructions TEXT NOT NULL,
-            calories INTEGER DEFAULT 0,
-            fat REAL DEFAULT 0.0,
-            carbs REAL DEFAULT 0.0,
-            protein REAL DEFAULT 0.0,
-            reference_image TEXT DEFAULT 'reference_images/default.jpg'
+            nutrition TEXT NOT NULL,
+            reference_image TEXT  # Add this line
         )
-    ''')
+    """)
+    conn.commit()
+    conn.close()
     
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS ingredients (
@@ -121,4 +119,5 @@ def get_all_recipes_with_ingredients():
     conn.close()
 
     return recipes
+
 
