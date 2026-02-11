@@ -1,4 +1,5 @@
 import os
+import sys
 import numpy as np
 from PIL import Image
 import tensorflow as tf
@@ -13,6 +14,9 @@ try:
 except Exception as e:
     TF_AVAILABLE = False
     print(f"TensorFlow not available (grading will be simulated): {e}")
+class DummyModel:
+        pass
+    model = DummyModel()
 
 class ImageGrader:
     def __init__(self, reference_images_dir="reference_images"):
@@ -22,7 +26,14 @@ class ImageGrader:
         # Pre-load reference features if TensorFlow available
         self.reference_features = {}
         if TF_AVAILABLE:
-            self._load_reference_features()
+            try:
+                MODEL_URL = "https://tfhub.dev/google/imagenet/mobilenet_v2_100_224/feature_vector/4"
+                global model
+                model = hub.KerasLayer(MODEL_URL, input_shape=(224, 224, 3))
+                self._load_reference_features()
+            except Exception as e:
+                print(f" Model loading failed: {e}")
+                TF_AVAILABLE = False
     
     def _load_reference_features(self):
         """Extract features from all reference images"""
@@ -113,4 +124,5 @@ class ImageGrader:
             "score": base,
             "feedback": "SIMULATED GRADE (install TensorFlow for real ML grading)",
             "dish": expected_dish or "Unknown Dish"
+
         }
