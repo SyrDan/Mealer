@@ -145,4 +145,5 @@ if __name__ == "__main__":
     cursor = conn.cursor()
     cursor.execute("SELECT COUNT(*) FROM recipes")
     recipe_count = cursor.fetchone()[0]
-…        raise Exception(f"Database initialization failed! Only {recipe_count} recipes found.")
+        raise Exception(f"Database initialization failed! Only {recipe_count} recipes found.")
+
