@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Food Recipe Generator</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: Arial; background: linear-gradient(135deg, #B8CEAB 0%, #76d042 100%); padding: 20px; }
+        .container { max-width: 800px; margin: 0 auto; background: white; padding: 50px; border-radius: 20px; box-shadow: 0 10px 40px rgba(0,0,0,0.2); }
+        h1 { text-align: center; color: #000000; margin-bottom: 10px; font-size: 2.5rem; }
+        .subtitle { text-align: center; color: #000000; margin-bottom: 30px; font-size: 1.1rem; }
+        .form-group { margin-bottom: 20px; }
+        label { display: block; margin-bottom: 8px; font-weight: bold; color: #495057; }
+        select, textarea { width: 100%; padding: 12px; border: 2px solid #e9ecef; border-radius: 10px; font-size: 1rem; }
+        select:focus, textarea:focus { outline: none; border-color: #000000; box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2); }
+        .checkbox-group { display: flex; align-items: center; gap: 10px; }
+        .checkbox-group input { width: auto; }
+        .error { background: #fff5f5; border-left: 4px solid #ff6b6b; padding: 15px; margin-bottom: 20px; border-radius: 8px; color: #c82333; font-weight: 500; }
+        button { background: #FF9151; color: white; padding: 15px 40px; border: none; border-radius: 50px; font-size: 1.1rem; font-weight: 600; cursor: pointer; width: 100%; transition: all 0.3s; }
+        button:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4); }
+        .example { color: #6c757d; font-size: 0.9rem; margin-top: 5px; }
+        .info-box { background: #e7f3ff; border-left: 4px solid #FF9151; padding: 15px; margin-bottom: 25px; border-radius: 8px; }
+        .info-box h3 { color: #000; margin-bottom: 8px; }
+        .info-box p { color: #495057; line-height: 1.6; }
+        .cuisines-list { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+        .cuisine-tag { background: #FF9151 ; color: white; padding: 4px 12px; border-radius: 20px; font-size: 0.85rem; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1> Mealer - food recipe generator</h1>
+        <p class="subtitle">Enter your ingredients and get personalized meal suggestions</p>
+        
+        <div class="info-box">
+            <h3>Available Cuisines</h3>
+            <p>This app includes <strong>20 authentic recipes</strong> across 4 cuisines:</p>
+            <div class="cuisines-list">
+                <span class="cuisine-tag">🇰🇿 Kazakh (5 meals)</span>
+                <span class="cuisine-tag">🇮🇹 Italian (5 meals)</span>
+                <span class="cuisine-tag">🇫🇷 French (5 meals)</span>
+                <span class="cuisine-tag">🇺🇸 American (5 meals)</span>
+            </div>
+        </div>
+        
+        {% if error %}
+        <div class="error">{{ error }}</div>
+        {% endif %}
+        
+        <form method="post" action="/generate">
+            <div class="form-group">
+                <label for="cuisine">Cuisine:</label>
+                <select id="cuisine" name="cuisine">
+                    <option value="any" {% if cuisine == 'any' or not cuisine %}selected{% endif %}>Choose cuisine</option>
+                    <option value="Kazakh" {% if cuisine == 'Kazakh' %}selected{% endif %}>Kazakh</option>
+                    <option value="Italian" {% if cuisine == 'Italian' %}selected{% endif %}>Italian</option>
+                    <option value="French" {% if cuisine == 'French' %}selected{% endif %}>French</option>
+                    <option value="American" {% if cuisine == 'American' %}selected{% endif %}>American</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="style">Style:</label>
+                <select id="style" name="style">
+                    <option value="any" {% if style == 'any' or not style %}selected{% endif %}>Choose style</option>
+                    <option value="Quick cooking" {% if style == 'Quick cooking' %}selected{% endif %}>Quick cooking</option>
+                    <option value="Gourmet" {% if style == 'Gourmet' %}selected{% endif %}>Gourmet</option>
+                    <option value="Healthy eating" {% if style == 'Healthy eating' %}selected{% endif %}>Healthy eating</option>
+                    <option value="Comfort food" {% if style == 'Comfort food' %}selected{% endif %}>Comfort food</option>
+                    <option value="Festive" {% if style == 'Festive' %}selected{% endif %}>Festive</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="ingredients">Product list:</label>
+                <textarea id="ingredients" name="ingredients" placeholder="Enter ingredients you have at home (comma separated)">{{ ingredients or '' }}</textarea>
+                <div class="example">Example: chicken, rice, onion, garlic, tomato</div>
+            </div>
+            
+            <div class="form-group">
+                <label class="checkbox-group">
+                    <input type="checkbox" name="vegan" value="1" {% if vegan %}checked{% endif %}>
+                    <span>Vegan</span>
+                </label>
+            </div>
+            
+            <button type="submit"> Generate the meal</button>
+        </form>
+    </div>
+</body>
+</html>
