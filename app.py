@@ -19,6 +19,26 @@ grader = ImageGrader()
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 templates = Jinja2Templates(directory=os.path.join(BASE_DIR, "templates"))
 
+def ensure_database_populated():
+    conn = sqlite3.connect("meals.db")
+    cursor = conn.cursor()
+    cursor.execute("SELECT COUNT(*) FROM recipes")
+    count = cursor.fetchone()[0]
+    conn.close()
+    
+    if count == 0:
+        print(" Database empty! Populating with sample recipes...")
+        from init_db import populate_sample_data
+        populate_sample_data()
+    else:
+        print(f" Database already populated ({count} recipes)")
+
+ensure_database_populated()
+
+app = FastAPI(title="SmartMeal Planner")
+recommender = MealRecommender()  # Will now find recipes
+grader = ImageGrader()
+
 @app.get("/", response_class=HTMLResponse)
 async def home(request: Request):
     """Main page - input ingredients with cuisine and style filters"""
