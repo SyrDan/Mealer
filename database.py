@@ -121,3 +121,4 @@ def get_all_recipes_with_ingredients():
     conn.close()
 
     return recipes
+
